@@ -4,7 +4,7 @@
     "keywords": ["google", "translate", "translator", "php", "translating", "translate documents pdf"],
     "license": "MIT",
     "type": "library",
-    "homepage": "https://github.com/richardsonoge/PdfTranslator",
+    "homepage": "https://github.com/richardsonoge/pdf-translator",
     "authors": [
         {
             "name": "Richardson Oge",
