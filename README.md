@@ -8,9 +8,9 @@ Free PHP package for translating any PDF document with the shell command in coll
  - **[Installing](#Installing)**
  - **[Basic Usage](#basic-usage)**
  - **[Errors and Exception Handling](#errors-and-exception-handling)**
- - [Known Limitations](#known-limitations)
- - [Disclaimer](#disclaimer)
- - [Donation](#donation)
+ - **[Known Limitations](#known-limitations)**
+ - **[Disclaimer](#disclaimer)**
+ - **[Donation](#donation)**
 
 ## Features
 

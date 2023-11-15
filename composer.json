@@ -1,7 +1,7 @@
 {
     "name": "richardsonoge/pdf-translator",
     "description": "Free PHP package for translating any PDF document with the Stichoza/GoogleTranslate library, which interacts with the Google Translate api.",
-    "keywords": ["google", "translate", "translator", "php", "translating", "translate documents pdf"],
+    "keywords": ["google translate", "translator", "php", "translating", "translate documents pdf", "translate pdf documents", "google translate pdf"],
     "license": "MIT",
     "type": "library",
     "homepage": "https://github.com/richardsonoge/pdf-translator",
