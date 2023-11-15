@@ -1,6 +1,8 @@
 PdfTranslator PHP
 ====================
+
 Free PHP package for translating any PDF document with the shell command in collaboration with the [Stichoza library using the Google Translate API](https://github.com/Stichoza/google-translate-php). 
+
 ---
 
  - **[Features](#Features)**
