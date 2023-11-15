@@ -51,5 +51,6 @@
     "minimum-stability": "dev",
     "scripts-descriptions": {
         "post-install-cmd": "Run after composer install. Checks and updates required extensions and commands for efficiency."
-    }
+    },
+    "version": "1.0.0"
 }
