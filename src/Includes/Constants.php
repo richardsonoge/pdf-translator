@@ -96,13 +96,6 @@ class Constants
      */
     const FOLDER_TRANSLATE = 'files/translate';
 
-    const ARRAY_FOLDER_TRANSLATE = ['files/translate'];
-
-    const PATH_TEXT_FILES_ORIGINAL = 'files/txt/original/';
-    const PATH_TEXT_FILES_TRANSLATE = 'files/txt/translate/';
-    const COMMAND = 'original_';
-    const COMMAND_TRANSLATE = 'translate_';
-
     /**************** Language accepted to translate your document PDF ********************/
         const LANG_ACCEPT_TRANSLATEFILE = [
             'af' => 'Afrikaans',
@@ -242,5 +235,60 @@ class Constants
             'zu' => 'Zulu'
         ];
     /**************** END Language accepted to translate your document PDF ********************/
+
+     /**
+     * The array of folder paths for translated files.
+     *
+     * This constant defines an array of folder paths where translated files will be stored.
+     * It is used in the context of organizing and managing translated files.
+     *
+     * @var array ARRAY_FOLDER_TRANSLATE The array of folder paths for translated files.
+     */
+    const ARRAY_FOLDER_TRANSLATE = ['files/translate/'];
+
+     /**
+     * The path to the library folder.
+     *
+     * This constant defines the path to the library folder.
+     *
+     * @var string PATH_LIBRARY The path to the library folder.
+     */
+    const PATH_LIBRARY = 'vendor/richardsonoge/pdf-translator';
+
+    /**
+     * The folder path for storing original text files.
+     *
+     * This constant defines the folder path where the original text files will be stored.
+     *
+     * @var string PATH_TEXT_FILES_ORIGINAL The folder path for original text files.
+     */
+    const PATH_TEXT_FILES_ORIGINAL = 'files/txt/original/';
+
+    /**
+     * The folder path for storing translated text files.
+     *
+     * This constant defines the folder path where the translated text files will be stored.
+     *
+     * @var string PATH_TEXT_FILES_TRANSLATE The folder path for translated text files.
+     */
+    const PATH_TEXT_FILES_TRANSLATE = 'files/txt/translate/';
+
+    /**
+     * The command prefix for original text files.
+     *
+     * This constant defines the command prefix for original text files.
+     *
+     * @var string COMMAND_ORIGINAL The command prefix for original text files.
+     */
+    const COMMAND_ORIGINAL = 'original_';
+
+    /**
+     * The command prefix for translated text files.
+     *
+     * This constant defines the command prefix for translated text files.
+     *
+     * @var string COMMAND_TRANSLATE The command prefix for translated text files.
+     */
+    const COMMAND_TRANSLATE = 'translate_';
 
 }

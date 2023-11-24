@@ -335,17 +335,13 @@ class PdfTranslator
 
         Exceptions::validateIntArgument($maxPagesPerFile, 'The maximum number of pages allowed in the splitPdfIntoPages function must be an integer.');
 
-        // Check if the output directory exists; 
-        // if not, create it with full permissions
-        if (!file_exists($this->absolutePath.Constants::FOLDER_SPLIT)) {
-            mkdir($this->absolutePath.Constants::FOLDER_SPLIT, 0777, true);
-        }
 
         // Set $split based on the provided or default value
         $splitOfPages = !is_null($maxPagesPerFile) ? $maxPagesPerFile : Constants::SPLIT_OF_PAGES;
-
-        $resultPdfSplitInArray = SettingsProcessor::splitPdfs($this->getDecryptedPdfFilePath(), $splitOfPages, $this->absolutePath);
-
+        
+        $absoluteSplitPath = Constants::PATH_LIBRARY.Constants::FOLDER_SPLIT;
+        $resultPdfSplitInArray = SettingsProcessor::splitPdfs($this->getDecryptedPdfFilePath(), $splitOfPages, $absoluteSplitPath);
+    
         $this->resultPdfSplitInArray = $resultPdfSplitInArray;
 
         return $this;
@@ -370,7 +366,7 @@ class PdfTranslator
         Exceptions::checkIsArray($pdfFiles, 'Invalid argument in the getResultPdfSplitInArray function. An array of PDF files is expected.');
 
         // Convert the PDF files to HTML
-        SettingsProcessor::pdfToHtml($pdfFiles);
+        SettingsProcessor::pdfToHtml($pdfFiles, Constants::PATH_LIBRARY);
 
         return $this;
     }
@@ -450,7 +446,8 @@ class PdfTranslator
         Exceptions::validateArrayArgument($this->getHtmlFiles(), 'The parameter to the convertHtmlToText function must be an array.');
 
         // Use SettingsProcessor to create text files from HTML files with predefined constants
-        $result = SettingsProcessor::createHtmltotext($this->getHtmlFiles(), Constants::PATH_TEXT_FILES_ORIGINAL, Constants::COMMAND);
+        $pathTextOriginal = Constants::PATH_LIBRARY.'/'.Constants::PATH_TEXT_FILES_ORIGINAL;
+        $result = SettingsProcessor::createHtmltotext($this->getHtmlFiles(), $pathTextOriginal, Constants::COMMAND_ORIGINAL);
 
         // Store the result in the class property
         $this->createHtmlToTextResult = $result;
@@ -476,7 +473,7 @@ class PdfTranslator
         Exceptions::validateArrayArgument($getCreateHtmlToTextResult, 'The parameter to the translateAllTextFiles function must be an array.');
 
         // Define the output path for translated text files
-        $outputTranslatePath = Constants::PATH_TEXT_FILES_TRANSLATE;
+        $outputTranslatePath = Constants::PATH_LIBRARY.'/'.Constants::PATH_TEXT_FILES_TRANSLATE; 
 
         // Check if the translation output directory exists; if not, create it with full permissions
         if (!file_exists($outputTranslatePath)) {
@@ -491,7 +488,6 @@ class PdfTranslator
         $results = SettingsProcessor::translateAllFilesTxt(
             $getCreateHtmlToTextResult,   // Original text files array
             $outputTranslatePath,          // Output path for translated text files
-            Constants::COMMAND_TRANSLATE,  // Translation command constant
             $to,                           // Target language
             $from                          // Source language
         );

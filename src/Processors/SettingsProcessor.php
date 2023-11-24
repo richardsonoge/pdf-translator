@@ -138,7 +138,7 @@ class SettingsProcessor
 
         // Decrypt the PDF file and convert it to HTML
         $decryptedFilePdf = self::decryptedFilePdf($pdfFilePath);
-        $outputHtmlPath = self::pdfToHtml($decryptedFilePdf);
+        $outputHtmlPath = self::pdfToHtml($decryptedFilePdf, Constants::PATH_LIBRARY);
 
         // Load the original HTML content
         $dom = new DOMDocument;
@@ -204,7 +204,7 @@ class SettingsProcessor
         // Iterate through each folder
         foreach ((array)$folderNames as $folderName) {
             // Get the list of files in the folder
-            $files = scandir($folderName);
+            $files = scandir(Constants::PATH_LIBRARY.'/'.$folderName);
 
             if ($files !== false) {
                 // Iterate through each file and check if it's older than the expiration time
@@ -235,6 +235,49 @@ class SettingsProcessor
      * @param string $textPattern The text pattern to match filenames against.
      * @return bool True if any files were deleted, false otherwise.
      */
+    // public static function deleteFilesByPatternInFolders($folderNames, $textPattern)
+    // {
+    //     // Flag to track if any files were deleted
+    //     $filesDeleted = false;
+
+    //     // Iterate through each folder
+    //     foreach ((array)$folderNames as $folderName) {
+    //         // Get the list of files in the folder
+    //         $files = scandir($folderName);
+
+    //         if ($files !== false) {
+    //             // Iterate through each file
+    //             foreach ($files as $file) {
+    //                 // Check if the file is a regular file and not a directory
+    //                 $filePath = $folderName . DIRECTORY_SEPARATOR . $file;
+    //                 if (is_file($filePath)) {
+    //                     // Use a regular expression to match filenames containing the specified text pattern
+    //                     if (preg_match("/$textPattern/iu", $file)) {
+    //                         // Delete the file
+    //                         unlink($filePath);
+    //                         $filesDeleted = true;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // Return true if any files were deleted, false otherwise
+    //     return $filesDeleted;
+    // }
+
+    /**
+     * Delete files in specified folders that match a specified text pattern.
+     *
+     * This static method iterates through each folder specified in $folderNames,
+     * retrieves the list of files in each folder, and deletes files that match the
+     * specified text pattern. It returns true if any files were deleted, and false otherwise.
+     *
+     * @param array|string $folderNames An array of folder names or a single folder name.
+     * @param string $textPattern The text pattern to match filenames against.
+     * @param string $basePath The base path for your project.
+     * @return bool True if any files were deleted, false otherwise.
+     */
     public static function deleteFilesByPatternInFolders($folderNames, $textPattern)
     {
         // Flag to track if any files were deleted
@@ -242,14 +285,18 @@ class SettingsProcessor
 
         // Iterate through each folder
         foreach ((array)$folderNames as $folderName) {
-            // Get the list of files in the folder
-            $files = scandir($folderName);
+            // Construct the full path to the folder
+            $folderPath = Constants::PATH_LIBRARY.'/'.$folderName;
 
-            if ($files !== false) {
+            // Check if the folder exists
+            if (is_dir($folderPath)) {
+                // Get the list of files in the folder
+                $files = scandir($folderPath);
+
                 // Iterate through each file
                 foreach ($files as $file) {
                     // Check if the file is a regular file and not a directory
-                    $filePath = $folderName . DIRECTORY_SEPARATOR . $file;
+                    $filePath = $folderPath . DIRECTORY_SEPARATOR . $file;
                     if (is_file($filePath)) {
                         // Use a regular expression to match filenames containing the specified text pattern
                         if (preg_match("/$textPattern/iu", $file)) {
@@ -334,7 +381,7 @@ class SettingsProcessor
      *
      * @return array An array of paths to the created translated text files.
      */
-    public static function translateAllFilesTxt($arrayListFilesTextOriginal, $outputTranslatePath, $commandTranslate, $to, $from) {
+    public static function translateAllFilesTxt($arrayListFilesTextOriginal, $outputTranslatePath, $to, $from) {
 
         $txtFilesTranslatePath = []; // Initialize an array to store paths of translated text files
 
@@ -361,7 +408,7 @@ class SettingsProcessor
 
             // Extract the filename without extension
             $filenameWithoutExtension = pathinfo($txtFile, PATHINFO_FILENAME);
-            $filenameOriginal = $commandTranslate . $filenameWithoutExtension . '.txt';
+            $filenameOriginal = $filenameWithoutExtension . '.txt';
             $outputTranslateFilePath = $outputTranslatePath . $filenameOriginal;
 
             // Create the translation output file if it doesn't exist
@@ -410,19 +457,19 @@ class SettingsProcessor
      *
      * @return string Path to the generated HTML file.
      */
-    public static function pdfToHtml($decryptedFilePdf)
+    public static function pdfToHtml($decryptedFilePdf, $absolutePath)
     {
         if (is_array($decryptedFilePdf)) {
             foreach ($decryptedFilePdf as $value) {
                 // Extract the filename without extension
                 $filenameWithoutExtension = pathinfo($value, PATHINFO_FILENAME);
-
+                 
                 // Define the output HTML path
-                $outputHtmlPath = Constants::FOLDER_SPLIT.$filenameWithoutExtension.'.html'; // Replace with your desired HTML output path
+                $outputHtmlPath = $absolutePath.Constants::FOLDER_SPLIT.$filenameWithoutExtension.'.html'; // Replace with your desired HTML output path
 
                 // Use pdf2htmlEX to convert the unlocked PDF to HTML
                 $command = "pdf2htmlEX --process-outline 0 --fit-width 1024 --space-as-offset 1 {$value} {$outputHtmlPath}";
-                
+
                 // Execute the command
                 exec($command);
             }
@@ -430,12 +477,12 @@ class SettingsProcessor
             // Extract the filename without extension
             $filenameWithoutExtension = pathinfo($decryptedFilePdf, PATHINFO_FILENAME);
 
-            if (!file_exists(Constants::FOLDER_TRANSLATE)) {
-                mkdir(Constants::FOLDER_TRANSLATE, 0777, true);
+            if (!file_exists($absolutePath.'/'.Constants::FOLDER_TRANSLATE)) {
+                mkdir($absolutePath.'/'.Constants::FOLDER_TRANSLATE, 0777, true);
             }
 
             // Define the output HTML path
-            $outputHtmlPath = Constants::FOLDER_TRANSLATE.'/'.$filenameWithoutExtension.'.html'; // Replace with your desired HTML output path
+            $outputHtmlPath = $absolutePath.'/'.Constants::FOLDER_TRANSLATE.'/'.$filenameWithoutExtension.'.html'; // Replace with your desired HTML output path
 
             // Use pdf2htmlEX to convert the unlocked PDF to HTML
             $command = "pdf2htmlEX --process-outline 0 --fit-width 1024 --space-as-offset 1 {$decryptedFilePdf} {$outputHtmlPath}";
@@ -461,9 +508,6 @@ class SettingsProcessor
 
         // Extract the filename without extension
         $filenameWithoutExtension = pathinfo($pdfFilePath, PATHINFO_FILENAME);
-
-        // Define the HTML output path based on the extracted filename
-        $outputHtmlPath = $filenameWithoutExtension.'.html'; // Replace with the desired HTML output path
 
         // Create a temporary file for the unlocked PDF
         $decryptedFilePath = tempnam(sys_get_temp_dir(), 'unlocked_pdf_'.$filenameWithoutExtension);
@@ -496,6 +540,12 @@ class SettingsProcessor
         
         // Check if the argument is an int.
         Exceptions::validateIntArgument($splitOfPages, 'The maximum allowed number of pages must be an integer.');
+        
+        // Check if the output directory exists; 
+        // if not, create it with full permissions
+        if (!file_exists($absolutePath)) {
+            mkdir($absolutePath, 0777, true);
+        }
 
         // Get information about the original PDF file
         $path_info = pathinfo($pdfFilePath);
@@ -523,7 +573,7 @@ class SettingsProcessor
                 $endPage = min($part * $splitOfPages, $pageCount);
 
                 // Use pdftk to extract specific pages
-                $new_filename = $absolutePath . '/files/split/' . $path_info['filename'] . '_part' . $part . ".pdf";
+                $new_filename = $absolutePath . $path_info['filename'] . '_part' . $part . ".pdf";
                 exec("pdftk $unlockedPdf02 cat $startPage-$endPage output $new_filename");
 
                 // Add the new filename to the result array
@@ -707,14 +757,14 @@ class SettingsProcessor
      *
      * @return array|bool An array of paths to the created text files on success, or false on failure.
      */
-    public static function createHtmltotext($htmlFiles, $outPath, $command)
+    public static function createHtmltotext($htmlFiles, $outPath, $command_original)
     {
         $txtFilesPath = []; // Initialize an array to store paths of created text files
 
         foreach ($htmlFiles as $htmlFile) {
             // Extract the filename without extension
             $filenameWithoutExtension = pathinfo($htmlFile, PATHINFO_FILENAME);
-            $filenameOriginal = $command . $filenameWithoutExtension . '.txt';
+            $filenameOriginal = $command_original . $filenameWithoutExtension . '.txt';
             $txtFilePath = $outPath . $filenameOriginal;
 
             // Convert HTML to text using the htmltotext function
@@ -730,4 +780,3 @@ class SettingsProcessor
     }
 
 }
-
