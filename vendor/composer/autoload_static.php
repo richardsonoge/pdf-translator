@@ -21,6 +21,7 @@ class ComposerStaticInit7f97681767c35e74ff64cfbbb6f88aa9
         ),
         'R' => 
         array (
+            'Richardson\\PdfTranslator\\Tests\\' => 31,
             'Richardson\\PdfTranslator\\' => 25,
         ),
         'P' => 
@@ -45,6 +46,10 @@ class ComposerStaticInit7f97681767c35e74ff64cfbbb6f88aa9
         'Stichoza\\GoogleTranslate\\' => 
         array (
             0 => __DIR__ . '/..' . '/stichoza/google-translate-php/src',
+        ),
+        'Richardson\\PdfTranslator\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Richardson\\PdfTranslator\\' => 
         array (

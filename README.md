@@ -95,21 +95,21 @@ $translationResult->setPdfFilePath('documents/freq.pdf')      // Set the path to
     ->translatePdfFile();                                     // Translate the PDF file
 
 // Check if the translation was successful
-if ($translationResult->getSuccess() === true) {
+if ($translationResult->getTranslationSuccess() === true) {
 
     // Get the paths to the translated files
-    $paths = $translationResult->getPaths();
+    $paths = $translationResult->getTranslationPaths();
+    
+    // Capture the PDF and HTML output during translation.
+    $htmlOutput = $translationResult->getHtmlOutput();
 
     // Display the links to the translated files
-    foreach ($paths as $key => $value) {
-        $number = $key + 1;
-        echo $number . '. ' . $value . ' : ' . '<a href="' . $value . '">' . $value . '</a><br>';
-    }
+    echo $htmlOutput;
 
-    $translationResult->cleanupFilesByPattern();              // Clean up files by pattern
-    $translationResult->deleteOldTranslatedFiles();           // The translated PDF file will be deleted after one hour. 
-                                                              // Default value: 3600 seconds. 
-                                                              // Set your own timeout for deletion of the translated file.
+    $translationResult->cleanupFilesByPattern();                // Clean up files by pattern
+    $translationResult->deleteOldTranslatedFiles();             // The translated PDF file will be deleted after one hour. 
+                                                                // Default value: 3600 seconds. 
+                                                                // Set your timeout for deletion of the translated file.
 }
 ```
 You can also use this second method to translate your PDF document.
@@ -131,16 +131,16 @@ $translationResult->setTranslationLanguages('en', 'fr')        // Set the transl
     ->translatePdfFile();                                      // Translate the PDF file
 
 // Check if the translation was successful
-if ($translationResult->getSuccess() === true) {
+if ($translationResult->getTranslationSuccess() === true) {
 
     // Get the paths to the translated files
-    $paths = $translationResult->getPaths();
+    $paths = $translationResult->getTranslationPaths();
+    
+    // Capture the PDF and HTML output during translation.
+    $htmlOutput = $translationResult->->getHtmlOutput();
 
     // Display the links to the translated files
-    foreach ($paths as $key => $value) {
-        $number = $key + 1;
-        echo $number . '. ' . $value . ' : ' . '<a href="' . $value . '">' . $value . '</a><br>';
-    }
+    echo $htmlOutput;
 
     $translationResult->cleanupFilesByPattern();                // Clean up files by pattern
     $translationResult->deleteOldTranslatedFiles();             // The translated PDF file will be deleted after one hour. 

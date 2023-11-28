@@ -476,6 +476,8 @@ class SettingsProcessor
 
                 // Execute the command
                 exec($command);
+
+                return $outputHtmlPath;
             }
         } else {
             // Extract the filename without extension

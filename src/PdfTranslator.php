@@ -87,12 +87,14 @@ class PdfTranslator
 
     private array $translatedPdfPaths;
 
+    private string $htmlOutput = '';
+
     /**
      * Initialize the Translate class.
      *
      * @param string|null $pdfFilePath The path to the PDF file (optional).
      */
-    public function __construct(?string $pdfFilePath = null, ?string $baseDir = null): PdfTranslator
+    public function __construct(?string $pdfFilePath = null, ?string $baseDir = null)
     {
         // Use the provided $baseDir or default to dirname(__DIR__)
         $this->absolutePath = $baseDir ?? dirname(__DIR__);
@@ -169,25 +171,33 @@ class PdfTranslator
     }
 
     /**
-     * Check if the translation was successful.
+     * Get the success status of the last translation.
      *
      * @return bool Whether the translation was successful or not.
      */
-    public function getSuccess(): bool
+    public function getTranslationSuccess(): bool
     {
-        // Assuming that success is a property in your class
         return $this->success;
     }
 
     /**
-     * Get the paths associated with the translation.
+     * Get the paths associated with the last translation.
      *
-     * @return array The paths associated with the translation.
+     * @return array The paths associated with the last translation.
      */
-    public function getPaths(): array
+    public function getTranslationPaths(): array
     {
-        // Assuming that paths is a property in your class
         return $this->translatedPdfPaths;
+    }
+
+    /**
+     * Get the captured HTML output.
+     *
+     * @return string The captured HTML output.
+     */
+    public function getHtmlOutput(): string
+    {
+        return $this->htmlOutput;
     }
 
     /**
@@ -314,7 +324,7 @@ class PdfTranslator
      * @param string $pdfFilePath The path to the PDF file.
      * @return int The number of pages in the PDF file.
      */
-    private function getNumberOfPages(string $pdfFilePath): PdfTranslator
+    private function getNumberOfPages(string $pdfFilePath): int
     {
         // Check if more than one parameter is provided
         Exceptions::validateCountArgument(1, func_get_args(), 'Only one parameter is allowed for the getNumberOfPages function.');
@@ -611,8 +621,37 @@ class PdfTranslator
         $this->success = $returnBooleanHtmlPdfExists;
         $this->translatedPdfPaths = $pathUrlTranslateHtml;
 
-         // Return an associative array indicating the success of the translation and the paths to translated files
-        return ['success' => $returnBooleanHtmlPdfExists, 'paths' => $pathUrlTranslateHtml];
+        // Capture the HTML output during translation
+        $this->htmlOutput = $this->captureHtmlOutput($pathUrlTranslateHtml);
+
+        // Return an associative array indicating the success of the translation and the paths to translated files
+        return $this;
+    }
+
+    /**
+     * Capture the HTML output during translation.
+     *
+     * @param array $translatedPaths The paths to the translated files.
+     * @return string The captured HTML output.
+     */
+    private function captureHtmlOutput(array $translatedPaths): string
+    {
+        $output = '';
+
+        foreach ($translatedPaths as $key => $value) {
+            $number = $key + 1;
+
+            // Construct the expected output
+            $expectedOutput = $number . '. ' . $value . ' : ' . '<a href="' . $value . '">' . $value . '</a><br>';
+
+            // Echo the expected output
+            echo $expectedOutput;
+
+            // Append the expected output to the $output variable
+            $output .= $expectedOutput;
+        }
+
+        return $output;
     }
 
     /**
