@@ -30,7 +30,7 @@
         "ext-dom": "Mandatory: extension=dom"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^10.4.2"
     },
     "scripts": {
         "post-install-cmd": [
