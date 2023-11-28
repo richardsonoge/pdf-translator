@@ -26,12 +26,16 @@ class Constants
     /**
      * Number of segments in an IPv6 address.
      * IPv6 addresses consist of eight segments separated by colons.
+     * 
+     * @var int
      */
     const IPV6_SEGMENTS = 8;
 
     /**
      * Default port number for a proxy server.
      * Port 8080 is commonly used for proxy communication.
+     * 
+     * @var int
      */
     const PROXY_PORT = 8080;
 
@@ -42,17 +46,23 @@ class Constants
 
     /**
      * Default number of pages used in various operations or configurations.
+     * 
+     * @var int
      */
     const DEFAULT_MAX_PAGES = 100;
 
     /**
      * Threshold for splitting PDF files into smaller sections during certain operations.
+     * 
+     * @var int
      */
     const SPLIT_OF_PAGES = 20;
 
     /**
      * Sleep duration (in seconds) after each translation operation.
      * Adjust this value to control the delay between translations.
+     * 
+     * @var int
      */
     const SLEEP_BEFORE_START_TRANSLATION = 1;
 

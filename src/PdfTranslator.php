@@ -54,45 +54,45 @@ class PdfTranslator
      *
      * @var string $absolutePath The absolute path of the current script's directory.
      */
-    private $absolutePath;
+    private string $absolutePath;
 
     /**
      * Path to the PDF file.
      *
      * @var string|null $pdfFilePath The path to the PDF file.
      */
-    private $pdfFilePath;
+    private ?string $pdfFilePath;
 
-    private $source;
+    private string $source;
 
-    private $target;
+    private string $target;
 
-    private $htmlFiles;
+    private array $htmlFiles;
 
-    private $createHtmlToTextResult;
+    private array $createHtmlToTextResult;
 
-    private $dataFilesTextOriginalToArray;
+    private array $dataFilesTextOriginalToArray;
 
-    private $dataFilesTextTranslateToArray;
+    private array $dataFilesTextTranslateToArray;
 
-    private $saveAs;
+    private ?string $saveAs;
 
-    private $decryptedPdfFilePath;
+    private ?string $decryptedPdfFilePath;
 
-    private $resultPdfSplitInArray;
+    private array $resultPdfSplitInArray;
 
-    private $arrayListFilesTextTranslate;
+    private array $arrayListFilesTextTranslate;
 
-    private $success;
+    private bool $success;
 
-    private $translatedPdfPaths;
+    private array $translatedPdfPaths;
 
     /**
      * Initialize the Translate class.
      *
      * @param string|null $pdfFilePath The path to the PDF file (optional).
      */
-    public function __construct($pdfFilePath = null, $baseDir = null)
+    public function __construct(?string $pdfFilePath = null, ?string $baseDir = null): PdfTranslator
     {
         // Use the provided $baseDir or default to dirname(__DIR__)
         $this->absolutePath = $baseDir ?? dirname(__DIR__);
@@ -196,7 +196,7 @@ class PdfTranslator
      * @param string $pdfFilePath The path to the PDF file.
      * @return $this
      */
-    public function setPdfFilePath($pdfFilePath): PdfTranslator
+    public function setPdfFilePath(string $pdfFilePath): PdfTranslator
     {
 
         Exceptions::validateCountArgument(1, func_get_args(), 'Only one parameter is allowed for the setPdfFilePath function.');
@@ -252,7 +252,7 @@ class PdfTranslator
      *
      * @return bool
      */
-    public function fileExists()
+    public function fileExists(): PdfTranslator
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(0, func_get_args(), 'fileExists function does not accept any arguments.');
@@ -314,7 +314,7 @@ class PdfTranslator
      * @param string $pdfFilePath The path to the PDF file.
      * @return int The number of pages in the PDF file.
      */
-    private function getNumberOfPages($pdfFilePath)
+    private function getNumberOfPages(string $pdfFilePath): PdfTranslator
     {
         // Check if more than one parameter is provided
         Exceptions::validateCountArgument(1, func_get_args(), 'Only one parameter is allowed for the getNumberOfPages function.');
@@ -328,7 +328,7 @@ class PdfTranslator
      * @param string $pdfFilePath The path to the PDF file.
      * @return array The result of splitting the PDF file.
      */
-    public function splitPdfIntoPages(?int $maxPagesPerFile = null)
+    public function splitPdfIntoPages(?int $maxPagesPerFile = null): PdfTranslator
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(1, func_get_args(), 'splitPdfIntoPages function accepts at most one argument.');
@@ -354,7 +354,7 @@ class PdfTranslator
      * @return array The array of HTML files generated from the PDF files.
      * @throws Exception If an error occurs during the PDF to HTML conversion.
      */
-    public function convertPdfToHtml()
+    public function convertPdfToHtml(): PdfTranslator
     {
 
         // Validate the number of arguments
@@ -385,7 +385,7 @@ class PdfTranslator
      * @throws Exception If more than one argument is provided.
      *                   If the specified number of seconds is not an integer.
      */
-    public function pauseTranslationProcess(?int $seconds = null)
+    public function pauseTranslationProcess(?int $seconds = null): PdfTranslator
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(1, func_get_args(), 'pauseTranslationProcess function accepts at most one argument.');
@@ -412,7 +412,7 @@ class PdfTranslator
      * @param string $pdfFilePath The path to the PDF file for which sorted HTML files are requested.
      * @return array The array of sorted HTML files.
      */
-    public function getSortedHtmlFileList()
+    public function getSortedHtmlFileList(): PdfTranslator
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(0, func_get_args(), 'getSortedHtmlFileList function does not accept any arguments.');
@@ -437,7 +437,7 @@ class PdfTranslator
      * @throws Exception If more than one parameter is provided.
      *                   If the provided parameter is not an array.
      */
-    public function convertHtmlToText()
+    public function convertHtmlToText(): PdfTranslator
     {
         // Validate that only one parameter is provided
         Exceptions::validateCountArgument(0, func_get_args(), 'convertHtmlToText function does not accept any arguments.');
@@ -462,7 +462,7 @@ class PdfTranslator
      *
      * @return mixed The result of the translation process.
      */
-    public function translateAllTextFiles()
+    public function translateAllTextFiles(): PdfTranslator
     {
         $getCreateHtmlToTextResult = $this->getCreateHtmlToTextResult();
 
@@ -505,7 +505,7 @@ class PdfTranslator
      * @throws Exception If more than one parameter is provided.
      *                   If the provided parameter is not an array.
      */
-    public function convertTextFileToArray()
+    public function convertTextFileToArray(): PdfTranslator
     {
         // Validate that only one parameter is provided
         Exceptions::validateCountArgument(0, func_get_args(), 'convertTextFileToArray function does not accept any arguments.');
@@ -539,7 +539,7 @@ class PdfTranslator
      * @param string $saveAs The path to save the translated PDF file.
      * @return $this The current Translate instance for method chaining.
      */
-    public function setOutputPath(?string $saveAs = null)
+    public function setOutputPath(?string $saveAs = null): PdfTranslator
     {
         Exceptions::validateCountArgument(1, func_get_args(), 'Only one parameter is allowed for the setOutputPath function.');
 
@@ -574,7 +574,7 @@ class PdfTranslator
      *
      * @return array An associative array indicating the success of the translation and the paths to translated files.
      */
-    public function translatePdfFile()
+    public function translatePdfFile(): PdfTranslator
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(0, func_get_args(), 'translatePdfFile function does not accept any arguments.');

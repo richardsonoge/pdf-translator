@@ -6,18 +6,21 @@ use Richardson\PdfTranslator\Includes\Constants;
  * Exceptions Class
  *
  * This class, designed for handling validation exceptions, provides static methods to ensure the validity of various types of arguments. It includes methods to validate integers, array counts, arrays, strings, and booleans. If a validation check fails, an exception is thrown with a specified error message.
-
+ *
  * @package Richardson\PdfTranslator
  * @version 1.0.0
  *
  * Methods:
  *
- * - `validateIntArgument($argument, $message)`: Validates that the provided argument is an integer.
- * - `validateCountArgument($countArgument, $message)`: Validates that the provided count argument matches the expected number of arguments.
- * - `validateArrayArgument($argument, $message)`: Validates that the provided argument is an array.
- * - `checkIsArray($array, $message)`: Validates whether the given variable is an array.
- * - `validateStringArgument($argument, $message)`: Validates that the provided argument is a string.
+ * - `validateIntArgument(int|null $argument, string $message)`: Validates that the provided argument is an integer.
+ * - `validateCountArgument(int $countArgument, array $arguments, string $message)`: Validates that the provided count argument matches the expected number of arguments.
+ * - `validateArrayArgument(array|null $argument, string $message)`: Validates that the provided argument is an array.
+ * - `checkIsArray(mixed $array, string $message)`: Validates whether the given variable is an array.
+ * - `validateStringArgument(string|null $argument, string $message)`: Validates that the provided argument is a string.
  * - `validateBooleanArgument(?bool $argument, string $message)`: Validates that the provided argument is a boolean.
+ * - `validatePdfPathArgument(?string $argument, string $message)`: Validate that the given argument represents a valid PDF path with the .pdf extension.
+ * - `handleSourceLanguageException(string $source)`: Handles exceptions related to the source language.
+ * - `handleTargetLanguageException(string $target)`: Handles exceptions related to the target language.
  */
 
 class Exceptions
@@ -32,7 +35,7 @@ class Exceptions
      * @param string $message The error message to be thrown if validation fails.
      * @throws Exception If the provided argument is not null and not an integer.
      */
-    public static function validateIntArgument($argument, $message)
+    public static function validateIntArgument(?int $argument, string $message): void
     {
         // Check if the argument is not null and is not an integer
         if (!is_null($argument) && !is_int($argument)) {
@@ -52,8 +55,8 @@ class Exceptions
 	 * @param string $message The error message to be thrown if validation fails.
 	 * @throws Exception If the number of arguments does not match the expected count.
 	 */
-	public static function validateCountArgument($countArgument, $arguments, $message)
-	{
+	public static function validateCountArgument(int $countArgument, array $arguments, string $message): void
+    {
 	    // Check if the number of arguments passed is not equal to the expected count
 	    if (count($arguments) > $countArgument) {
 	        // Throw an exception with the specified error message
@@ -71,8 +74,8 @@ class Exceptions
 	 * @param string $message The error message to be used in the exception if validation fails.
 	 * @throws Exception If the argument is not null and is not an array.
 	 */
-	public static function validateArrayArgument($argument, $message)
-	{
+	public static function validateArrayArgument(?array $argument, string $message): void
+    {
 	    // Check if the argument is not null and is not an array
 	    if (!is_null($argument) && !is_array($argument)) {
 	        // Throw an exception with the specified error message
@@ -90,8 +93,8 @@ class Exceptions
 	 * @param string $message The error message to be thrown if the validation fails.
 	 * @throws Exception If the variable is not an array.
 	 */
-	public static function checkIsArray($array, $message)
-	{
+	public static function checkIsArray(mixed $array, string $message): void
+    {
 	    if (!is_array($array)) {
 	        throw new \Exception($message);
 	    }
@@ -107,8 +110,8 @@ class Exceptions
 	 * @param string $message The error message to be used in the exception if validation fails.
 	 * @throws Exception If the argument is not null and is not a string.
 	 */
-	public static function validateStringArgument($argument, $message)
-	{
+	public static function validateStringArgument(?string $argument, string $message): void
+    {
 	    // Check if the argument is not null and is not a string
 	    if (!is_null($argument) && !is_string($argument)) {
 	        // Throw an exception with the specified error message
@@ -123,8 +126,8 @@ class Exceptions
 	 * @param string $message The error message to throw if validation fails.
 	 * @throws Exception If the argument is not a boolean.
 	 */
-	public static function validateBooleanArgument(?bool $argument, string $message)
-	{
+	public static function validateBooleanArgument(?bool $argument, string $message): void
+    {
 	    // Check if the argument is not null and is not a boolean
 	    if (!is_null($argument) && !is_bool($argument)) {
 	        // Throw an exception with the specified error message
@@ -143,7 +146,7 @@ class Exceptions
 	 *
 	 * @throws Exception If the provided argument does not have the .pdf extension.
 	 */
-	public static function validatePdfPathArgument(?string $argument, string $message)
+	public static function validatePdfPathArgument(?string $argument, string $message): void
 	{
 	    // Ensure the path has the .pdf extension at the end
 	    if (pathinfo($argument, PATHINFO_EXTENSION) !== 'pdf') {
@@ -152,8 +155,8 @@ class Exceptions
 	    }
 	}
 
-	public static function handleSourceLanguageException($source)
-	{
+	public static function handleSourceLanguageException(string $source): void
+    {
 		$lowercaseLang = strtolower($source);
         if (!empty($lowercaseLang)) {
             if (!array_key_exists($lowercaseLang, array_map('strtolower', Constants::LANG_ACCEPT_TRANSLATEFILE))) {
@@ -169,8 +172,8 @@ class Exceptions
         }
 	}
 
-	public static function handleTargetLanguageException($target)
-	{
+	public static function handleTargetLanguageException(string $target): void
+    {
 		$lowercaseLang = strtolower($target);
         if ($lowercaseLang && !array_key_exists($lowercaseLang, array_map('strtolower', Constants::LANG_ACCEPT_TRANSLATEFILE))) {
             $foundCode = array_search($lowercaseLang, array_map('strtolower', Constants::LANG_ACCEPT_TRANSLATEFILE));

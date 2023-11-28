@@ -33,13 +33,12 @@ use GuzzleHttp\Client;
 
 class Translator
 {
-
     /**
      * Generates a random IPv4 address.
      *
      * @return string Random IPv4 address.
      */
-    public static function generateRandomIPv4Address()
+    public static function generateRandomIPv4Address(): string
     {
         return long2ip(mt_rand());
     }
@@ -49,7 +48,7 @@ class Translator
      *
      * @return string Random IPv6 address.
      */
-    public static function generateRandomIPv6Address()
+    public static function generateRandomIPv6Address(): string
     {
         $ipv6Segments = [];
         for ($i = 0; $i < Constants::IPV6_SEGMENTS; $i++) {
@@ -63,7 +62,7 @@ class Translator
      *
      * @return string Random User Agent string.
      */
-    public static function generateRandomUserAgent()
+    public static function generateRandomUserAgent(): string
     {
         $browsers = [
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
@@ -79,7 +78,7 @@ class Translator
      * @param string $langTransTo Target language for translation.
      * @return string Detected language code.
      */
-    public static function detectLanguage($text, $langTransTo = 'en')
+    public static function detectLanguage(string $text, string $langTransTo = 'en'): string
     {
         $translator = new GoogleTranslate($langTransTo);
 
@@ -104,7 +103,7 @@ class Translator
      * @param string $langTransTo Target language code.
      * @return string Translated text.
      */
-    public static function translate($text, $langTransFrom, $langTransTo)
+    public static function translate(string $text, string $langTransFrom, string $langTransTo): string
     {
         $translator = new GoogleTranslate();
 

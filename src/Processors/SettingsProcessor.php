@@ -45,7 +45,7 @@ class SettingsProcessor
      * @param string $decryptedFilePdf  Path to the decrypted PDF file.
      * @param string $outputHtmlPath    Path to the HTML file.
      */
-    public static function deleteDecryptedAndHtmlFiles($decryptedFilePdf, $outputHtmlPath)
+    public static function deleteDecryptedAndHtmlFiles(string $decryptedFilePdf, string $outputHtmlPath): void
     {
         if (file_exists($decryptedFilePdf) && file_exists($outputHtmlPath)) {
             unlink($decryptedFilePdf);
@@ -61,7 +61,7 @@ class SettingsProcessor
      *
      * @return string Path to the translated PDF file.
      */
-    public static function convertHtmlToPdf($outputHtmlSavePath, $outputPdfSavePath)
+    public static function convertHtmlToPdf(string $outputHtmlSavePath, string $outputPdfSavePath): string
     {
         // Add your htmlToPdf logic here and return the path to the translated PDF
         return self::htmlToPdf($outputHtmlSavePath, $outputPdfSavePath);
@@ -73,7 +73,7 @@ class SettingsProcessor
      * @param DOMDocument $dom The DOMDocument object representing the HTML.
      * @param string $outputHtmlSavePath Path to save the translated HTML file.
      */
-    public static function saveTranslatedHtml($dom, $outputHtmlSavePath)
+    public static function saveTranslatedHtml(DOMDocument $dom, string $outputHtmlSavePath): void
     {
         $dom->saveHTMLFile($outputHtmlSavePath);
     }
@@ -90,7 +90,7 @@ class SettingsProcessor
      * @param array       $dataFilesTextOriginalToArray Array of original text data.
      * @param array       $dataFilesTextTranslateToArray Array of translated text data.
      */
-    public static function translateTextInHtml($dom, $htmlFiles, $dataFilesTextOriginalToArray, $dataFilesTextTranslateToArray)
+    public static function translateTextInHtml(DOMDocument $dom, array $htmlFiles, array $dataFilesTextOriginalToArray, array $dataFilesTextTranslateToArray): void
     {
         $xpath = new \DOMXPath($dom);
         $textNodes = $xpath->query('//text()');
@@ -129,7 +129,7 @@ class SettingsProcessor
      *
      * @return array Array containing paths to the translated HTML and PDF files.
      */
-    public static function translateHtmlPdf($htmlFiles, $dataFilesTextOriginalToArray, $dataFilesTextTranslateToArray, $pathSaveOutputPdf, $pdfFilePath)
+    public static function translateHtmlPdf(array $htmlFiles, array $dataFilesTextOriginalToArray, array $dataFilesTextTranslateToArray, string $pathSaveOutputPdf, string $pdfFilePath): array
     {
         // Array to store paths to translated HTML files
         $pathUrlTranslateHtml = [];
@@ -196,7 +196,7 @@ class SettingsProcessor
      * @param int $expirationTime The expiration time in seconds.
      * @return bool True if any files were deleted, false otherwise.
      */
-    public static function unlinkOldFiles($folderNames, $expirationTime)
+    public static function unlinkOldFiles(array|string $folderNames, int $expirationTime): bool
     {
         // Flag to track if any files were deleted
         $filesDeleted = false;
@@ -278,7 +278,7 @@ class SettingsProcessor
      * @param string $basePath The base path for your project.
      * @return bool True if any files were deleted, false otherwise.
      */
-    public static function deleteFilesByPatternInFolders($folderNames, $textPattern)
+    public static function deleteFilesByPatternInFolders(array|string $folderNames, string $textPattern): bool
     {
         // Flag to track if any files were deleted
         $filesDeleted = false;
@@ -323,7 +323,8 @@ class SettingsProcessor
      *
      * @return void
      */
-    public static function delayTranslation($seconds) {
+    public static function delayTranslation(int $seconds): void
+    {
         // Use the sleep function to introduce a delay.
         sleep($seconds);
     }
@@ -335,7 +336,8 @@ class SettingsProcessor
      *
      * @return array The transformed multidimensional array.
      */
-    public static function transformContentFileTxtToArray($arrayListFilesTextOriginal) {
+    public static function transformContentFileTxtToArray(array $arrayListFilesTextOriginal): array
+    {
         // Initialize the array to store the transformed data
         $dataContentTxtOriginalArray = [];
 
@@ -381,7 +383,8 @@ class SettingsProcessor
      *
      * @return array An array of paths to the created translated text files.
      */
-    public static function translateAllFilesTxt($arrayListFilesTextOriginal, $outputTranslatePath, $to, $from) {
+    public static function translateAllFilesTxt(array $arrayListFilesTextOriginal, string $outputTranslatePath, string $to, string $from): array
+    {
 
         $txtFilesTranslatePath = []; // Initialize an array to store paths of translated text files
 
@@ -433,7 +436,8 @@ class SettingsProcessor
      * 
      * @return array An array of sorted HTML file paths.
      */
-    public static function getSortedHtmlFiles($pdfFilePath, $absolutePath) {
+    public static function getSortedHtmlFiles(string $pdfFilePath, string $absolutePath): array
+    {
         $folderPath = $absolutePath.Constants::FOLDER_SPLIT;
 
         // Extract the filename without extension
@@ -457,7 +461,7 @@ class SettingsProcessor
      *
      * @return string Path to the generated HTML file.
      */
-    public static function pdfToHtml($decryptedFilePdf, $absolutePath)
+    public static function pdfToHtml(string|array $decryptedFilePdf, string $absolutePath): string
     {
         if (is_array($decryptedFilePdf)) {
             foreach ($decryptedFilePdf as $value) {
@@ -501,7 +505,7 @@ class SettingsProcessor
      *
      * @return string Path to the decrypted PDF file.
      */
-    public static function decryptedFilePdf($pdfFilePath)
+    public static function decryptedFilePdf(string $pdfFilePath): string
     {
         // Check if more than one parameter is provided
         Exceptions::validateCountArgument(1, func_get_args(), 'Only one parameter is allowed for decryptedFilePdf function.');
@@ -533,7 +537,7 @@ class SettingsProcessor
      * @param string $pdfFilePath The path to the PDF file.
      * @return array The result of splitting the PDF file.
      */
-    public static function splitPdfs($pdfFilePath, $splitOfPages, $absolutePath)
+    public static function splitPdfs(string $pdfFilePath, int $splitOfPages, string $absolutePath): array
     {
         // Check if any argument is provided
         Exceptions::validateCountArgument(3, func_get_args(), 'splitPdfs function accepts at most three argument.');
@@ -599,7 +603,7 @@ class SettingsProcessor
      *
      * @return string Path to the generated PDF file.
      */
-    private static function htmlToPdf($outputHtmlSavePath, $outputPdfSavePath, $additionalOptions = '')
+    private static function htmlToPdf(string $outputHtmlSavePath, string $outputPdfSavePath, string $additionalOptions = ''): string
     {
         // Logic HTML to PDF conversion and return the path to the PDF file
 
@@ -631,7 +635,7 @@ class SettingsProcessor
      *
      * @return array An array containing visible text fragments extracted from the HTML.
      */
-    public static function extractTextFromHTMLToArray($html)
+    public static function extractTextFromHTMLToArray(?string $html): array
     {
         // Check if $html is null
         if ($html === null) {
@@ -688,7 +692,7 @@ class SettingsProcessor
      *
      * @return array An array containing text fragments extracted from the element.
      */
-    private static function extractTextFromElement($element)
+    private static function extractTextFromElement(DOMElement $element): array
     {
         $texts = [];
 
@@ -712,7 +716,7 @@ class SettingsProcessor
      *
      * @return bool True on success, false on failure.
      */
-    private static function htmltotext($htmlFile, $txtFilePath)
+    private static function htmltotext(string $htmlFile, string $txtFilePath): bool
     {
         // Read the HTML content from the file
         $htmlContent = file_get_contents($htmlFile);
@@ -757,7 +761,7 @@ class SettingsProcessor
      *
      * @return array|bool An array of paths to the created text files on success, or false on failure.
      */
-    public static function createHtmltotext($htmlFiles, $outPath, $command_original)
+    public static function createHtmltotext(array $htmlFiles, string $outPath, string $command_original): array|bool
     {
         $txtFilesPath = []; // Initialize an array to store paths of created text files
 
