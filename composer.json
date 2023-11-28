@@ -16,6 +16,11 @@
             "Richardson\\PdfTranslator\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Richardson\\PdfTranslator\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.0",

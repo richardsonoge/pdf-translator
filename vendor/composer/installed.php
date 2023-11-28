@@ -3,7 +3,7 @@
         'name' => 'richardsonoge/pdf-translator',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '9b3fdbea0936d4d1d53a615b9fcc0eb3f1b37c4f',
+        'reference' => 'f79be2e3a736acbb4412b3929756b379f1b3255d',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -184,7 +184,7 @@
         'richardsonoge/pdf-translator' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '9b3fdbea0936d4d1d53a615b9fcc0eb3f1b37c4f',
+            'reference' => 'f79be2e3a736acbb4412b3929756b379f1b3255d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

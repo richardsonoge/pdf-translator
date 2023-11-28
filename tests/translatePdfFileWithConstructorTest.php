@@ -4,7 +4,7 @@ use Richardson\PdfTranslator\PdfTranslator;
 
 class PdfTranslatorTest extends TestCase
 {
-    public function testTranslatePdfFileWithConstructor()
+    public function translatePdfFileWithConstructorTest()
     {
         $translationResult = new PdfTranslator('documents/freq.pdf');
         $translationResult->setTranslationLanguages('en', 'fr')

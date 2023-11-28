@@ -4,7 +4,7 @@ use Richardson\PdfTranslator\PdfTranslator;
 
 class PdfTranslatorTest extends TestCase
 {
-    public function testTranslatePdfFile()
+    public function translatePdfFileTest()
     {
         $translationResult = new PdfTranslator();
         $translationResult->setPdfFilePath('documents/freq.pdf')
