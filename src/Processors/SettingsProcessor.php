@@ -233,48 +233,6 @@ class SettingsProcessor
      *
      * @param array|string $folderNames An array of folder names or a single folder name.
      * @param string $textPattern The text pattern to match filenames against.
-     * @return bool True if any files were deleted, false otherwise.
-     */
-    // public static function deleteFilesByPatternInFolders($folderNames, $textPattern)
-    // {
-    //     // Flag to track if any files were deleted
-    //     $filesDeleted = false;
-
-    //     // Iterate through each folder
-    //     foreach ((array)$folderNames as $folderName) {
-    //         // Get the list of files in the folder
-    //         $files = scandir($folderName);
-
-    //         if ($files !== false) {
-    //             // Iterate through each file
-    //             foreach ($files as $file) {
-    //                 // Check if the file is a regular file and not a directory
-    //                 $filePath = $folderName . DIRECTORY_SEPARATOR . $file;
-    //                 if (is_file($filePath)) {
-    //                     // Use a regular expression to match filenames containing the specified text pattern
-    //                     if (preg_match("/$textPattern/iu", $file)) {
-    //                         // Delete the file
-    //                         unlink($filePath);
-    //                         $filesDeleted = true;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     // Return true if any files were deleted, false otherwise
-    //     return $filesDeleted;
-    // }
-
-    /**
-     * Delete files in specified folders that match a specified text pattern.
-     *
-     * This static method iterates through each folder specified in $folderNames,
-     * retrieves the list of files in each folder, and deletes files that match the
-     * specified text pattern. It returns true if any files were deleted, and false otherwise.
-     *
-     * @param array|string $folderNames An array of folder names or a single folder name.
-     * @param string $textPattern The text pattern to match filenames against.
      * @param string $basePath The base path for your project.
      * @return bool True if any files were deleted, false otherwise.
      */
